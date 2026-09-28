@@ -131,6 +131,7 @@
       data-composition-id="main"
       data-start="0"
       data-duration="5"
+      data-fps="60"
       data-width="1080"
       data-height="1920"
     >
@@ -164,46 +165,48 @@
     <script>
       const tl = gsap.timeline({ paused: true });
 
+      // Everything is on screen by 1.5s; the pulse after it is the only accent.
+
       // Background glow blooms behind the icon.
-      tl.fromTo("#glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 0);
+      tl.fromTo("#glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out" }, 0);
 
       // YouTube icon: rises from depth with a soft overshoot.
       tl.fromTo(
         "#icon",
         { opacity: 0, scale: 0.55, y: 40, filter: "blur(12px)" },
-        { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "back.out(1.6)" },
-        0.15,
+        { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "back.out(1.6)" },
+        0,
       );
       // Play triangle pops a beat later.
       tl.fromTo(
         "#icon-play",
         { scale: 0, transformOrigin: "50% 50%" },
-        { scale: 1, duration: 0.5, ease: "back.out(2.4)" },
-        0.6,
+        { scale: 1, duration: 0.3, ease: "back.out(2.4)" },
+        0.25,
       );
 
       // Caption: "Disponível no YouTube" rises word by word through masks.
       tl.fromTo(
         "#tagline .word",
         { yPercent: 110, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 0.7, ease: "power4.out", stagger: 0.14 },
-        1.05,
+        { yPercent: 0, opacity: 1, duration: 0.45, ease: "power4.out", stagger: 0.08 },
+        0.35,
       );
 
       // Thin red divider draws from the centre.
-      tl.fromTo("#divider", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 1.85);
+      tl.fromTo("#divider", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.4, ease: "power3.out" }, 0.6);
 
-      // Channel name: letters cascade in with a blur-to-sharp settle.
+      // Channel name: letters cascade in with a blur-to-sharp settle (done by 1.41s).
       tl.fromTo(
         "#name .ch",
         { y: 60, opacity: 0, filter: "blur(10px)" },
-        { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out", stagger: 0.06 },
-        2.2,
+        { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out", stagger: 0.035 },
+        0.7,
       );
 
       // Accent: the icon answers the name with a single pulse, glow flares with it.
-      tl.to("#icon", { keyframes: { scale: [1, 1.07, 1], easeEach: "power2.inOut" }, duration: 0.72 }, 3.35);
-      tl.to("#glow", { opacity: 0.65, scale: 1.12, duration: 1.2, ease: "power2.inOut" }, 3.35);
+      tl.to("#icon", { keyframes: { scale: [1, 1.07, 1], easeEach: "power2.inOut" }, duration: 0.6 }, 1.6);
+      tl.to("#glow", { opacity: 0.65, scale: 1.12, duration: 1.2, ease: "power2.inOut" }, 1.6);
 
       // Slow drift so the hold never freezes.
       tl.fromTo(".stage", { scale: 1 }, { scale: 1.035, duration: 5, ease: "none" }, 0);
