@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Disponível no YouTube — OsKesya</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Inter";
+        font-weight: 300;
+        font-display: block;
+        src: url("assets/fonts/inter-latin-300-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Inter";
+        font-weight: 600;
+        font-display: block;
+        src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Inter";
+        font-weight: 800;
+        font-display: block;
+        src: url("assets/fonts/inter-latin-800-normal.woff2") format("woff2");
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background-color: #000;
+        font-family: "Inter", sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+      }
+      .bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 70% 40% at 50% 44%, rgba(255, 0, 51, 0.16), transparent 70%),
+          radial-gradient(ellipse 120% 80% at 50% 50%, #0b0b0d 0%, #000 75%);
+      }
+      .glow {
+        position: absolute;
+        left: 50%;
+        top: 38%;
+        width: 900px;
+        height: 900px;
+        margin-left: -450px;
+        margin-top: -450px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 0, 40, 0.35) 0%, rgba(255, 0, 40, 0) 65%);
+        opacity: 0;
+      }
+      .stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+      }
+      .icon-wrap {
+        display: block;
+        width: 300px;
+        height: 212px;
+        margin-bottom: 110px;
+      }
+      .icon-wrap svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .line {
+        display: flex;
+        gap: 22px;
+        font-size: 64px;
+        font-weight: 300;
+        letter-spacing: 0.02em;
+        color: #e9e9ec;
+      }
+      .mask {
+        display: block;
+        overflow: hidden;
+        padding: 6px 0 10px;
+      }
+      .word {
+        display: block;
+      }
+      .word.yt {
+        font-weight: 600;
+        color: #fff;
+      }
+      .divider {
+        display: block;
+        width: 140px;
+        height: 3px;
+        margin: 56px 0 52px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, rgba(255, 0, 51, 0), #ff0033, rgba(255, 0, 51, 0));
+      }
+      .name {
+        display: flex;
+        font-size: 132px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: #fff;
+      }
+      .ch {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="5"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div class="bg"></div>
+      <div class="glow" id="glow"></div>
+
+      <div class="stage">
+        <div class="icon-wrap" id="icon">
+          <svg viewBox="0 0 300 212" aria-label="YouTube">
+            <rect id="icon-body" x="0" y="0" width="300" height="212" rx="58" fill="#ff0033" />
+            <path id="icon-play" d="M122 64 L200 106 L122 148 Z" fill="#ffffff" />
+          </svg>
+        </div>
+
+        <div class="line" id="tagline">
+          <span class="mask" data-layout-allow-overflow><span class="word">Disponível</span></span>
+          <span class="mask" data-layout-allow-overflow><span class="word">no</span></span>
+          <span class="mask" data-layout-allow-overflow><span class="word yt">YouTube</span></span>
+        </div>
+
+        <div class="divider" id="divider"></div>
+
+        <div class="name" id="name">
+          <span class="ch">O</span><span class="ch">s</span><span class="ch">K</span
+          ><span class="ch">e</span><span class="ch">s</span><span class="ch">y</span
+          ><span class="ch">a</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Background glow blooms behind the icon.
+      tl.fromTo("#glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 0);
+
+      // YouTube icon: rises from depth with a soft overshoot.
+      tl.fromTo(
+        "#icon",
+        { opacity: 0, scale: 0.55, y: 40, filter: "blur(12px)" },
+        { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "back.out(1.6)" },
+        0.15,
+      );
+      // Play triangle pops a beat later.
+      tl.fromTo(
+        "#icon-play",
+        { scale: 0, transformOrigin: "50% 50%" },
+        { scale: 1, duration: 0.5, ease: "back.out(2.4)" },
+        0.6,
+      );
+
+      // Caption: "Disponível no YouTube" rises word by word through masks.
+      tl.fromTo(
+        "#tagline .word",
+        { yPercent: 110, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 0.7, ease: "power4.out", stagger: 0.14 },
+        1.05,
+      );
+
+      // Thin red divider draws from the centre.
+      tl.fromTo("#divider", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 1.85);
+
+      // Channel name: letters cascade in with a blur-to-sharp settle.
+      tl.fromTo(
+        "#name .ch",
+        { y: 60, opacity: 0, filter: "blur(10px)" },
+        { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out", stagger: 0.06 },
+        2.2,
+      );
+
+      // Accent: the icon answers the name with a single pulse, glow flares with it.
+      tl.to("#icon", { keyframes: { scale: [1, 1.07, 1], easeEach: "power2.inOut" }, duration: 0.72 }, 3.35);
+      tl.to("#glow", { opacity: 0.65, scale: 1.12, duration: 1.2, ease: "power2.inOut" }, 3.35);
+
+      // Slow drift so the hold never freezes.
+      tl.fromTo(".stage", { scale: 1 }, { scale: 1.035, duration: 5, ease: "none" }, 0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
